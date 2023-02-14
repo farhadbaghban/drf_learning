@@ -1,4 +1,5 @@
 from rest_framework.views import APIView
+from rest_framework import status
 
 # from django.contrib.auth.models import User
 from rest_framework.response import Response
@@ -15,5 +16,5 @@ class UserRegisterView(APIView):
             #     email=ser_data.validated_data["email"],
             #     password=ser_data.validated_data["password"],
             # )
-            return Response(ser_data.data)
-        return Response(ser_data.errors)
+            return Response(ser_data.data, status=status.HTTP_201_CREATED)
+        return Response(ser_data.errors, status=status.HTTP_400_BAD_REQUEST)
