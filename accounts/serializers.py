@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
     first = strat serializer
 
     second = user model serializer
+    third = overwrite create
 """
 
 
@@ -31,6 +32,10 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             "email": {"validators": [clean_email]},
             "password": {"write_only": True},
         }
+
+    def create(self, validated_data):
+        del validated_data["password2"]
+        return User.objects.create_user(**validated_data)
 
     def validate(self, data):
         if data["password"] != data["password2"]:
