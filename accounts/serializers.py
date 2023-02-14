@@ -35,7 +35,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         del validated_data["password2"]
-        return User.objects.create_user(**validated_data)
+        user = User.objects.create_user(**validated_data)
+        return user
 
     def validate(self, data):
         if data["password"] != data["password2"]:

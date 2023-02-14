@@ -1,4 +1,5 @@
 from rest_framework.views import APIView
+from rest_framework.authtoken.models import Token
 from rest_framework import status
 
 # from django.contrib.auth.models import User
@@ -10,7 +11,8 @@ class UserRegisterView(APIView):
     def post(self, request, *args, **kwargs):
         ser_data = UserRegisterSerializer(data=request.POST)
         if ser_data.is_valid():
-            ser_data.create(ser_data.validated_data)
+            user = ser_data.create(ser_data.validated_data)
+            Token.objects.create(user=user)
             # User.objects.create_user(
             #     username=ser_data.validated_data["username"],
             #     email=ser_data.validated_data["email"],
