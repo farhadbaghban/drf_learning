@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework import status
 from .models import Person, Question, Answer
 from .serializers import PersonSerializer, QuestionSerializer, AnswerSerializer
+from permissions import IsOwnerOrReadOnly
 
 
 class HomeView(APIView):
@@ -52,8 +53,13 @@ class QuestionCreateView(APIView):
 
 
 class QuestionUpdateView(APIView):
+    permission_classes = [
+        IsOwnerOrReadOnly,
+    ]
+
     def put(self, request, *args, **kwargs):
         question = Question.objects.get(id=kwargs["pk"])
+        self.check_object_permissions(request, question)
         ser_data = QuestionSerializer(
             instance=question, data=request.POST, partial=True
         )
