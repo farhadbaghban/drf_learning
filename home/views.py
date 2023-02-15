@@ -70,7 +70,12 @@ class QuestionUpdateView(APIView):
 
 
 class QuestionDeleteView(APIView):
+    permission_classes = [
+        IsOwnerOrReadOnly,
+    ]
+
     def delete(self, request, *args, **kwargs):
         question = Question.objects.get(id=kwargs["pk"])
+        self.check_object_permissions(request, question)
         question.delete()
         return Response({"message": "question deleted"}, status=status.HTTP_200_OK)
