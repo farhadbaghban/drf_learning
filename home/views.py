@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from django.contrib import messages
 from rest_framework.response import Response
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from .models import Person
 from .serializers import PersonSerializer
 
@@ -25,6 +26,7 @@ class HomeView(APIView):
     # def post(self, request, *args, **kwargs):
     #     name = request.data["name"]
     #     return Response({"name": name})
+    permission_classes = [IsAuthenticated, IsAdminUser]
 
     def get(self, requset, *args, **kwargs):
         persons = Person.objects.all()
