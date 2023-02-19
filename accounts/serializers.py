@@ -47,3 +47,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         if value == "admin":
             raise serializers.ValidationError("you cant use admin")
         return value
+
+
+class UserViewSetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = "__all__"
